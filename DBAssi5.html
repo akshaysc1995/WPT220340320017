@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+
+    <script>
+        $(() => {
+            console.log("page Loaded");
+
+
+            $("#acno").blur(
+                    ()=>{
+                console.log("blur Loaded");
+                let ip = { accno: $("#acno").val() };
+                let parameterstothefunction =
+                {
+                    data: ip,
+                    url: "http://localhost:1200/AccountInfo",
+                    type: 'get',
+                    dataType: "json",
+                    success: (datagivenbyserver) => {
+                        console.log("data given by server in success" + datagivenbyserver.status)
+                        if (datagivenbyserver.status === true) {
+                        
+                        $("#msg").text(datagivenbyserver.account.balance); 
+                        }
+                        else {
+                         
+                          $("#msg").text("not found");
+                        }
+                    },
+                    error: (errorgivenbyserver) => { console.log("failed to contact server " + errorgivenbyserver.status) }
+                };
+
+                console.log("is the function working");
+                $.ajax(parameterstothefunction);
+
+            });
+
+        });
+
+    </script>
+</head>
+
+<body>
+
+    <input type="text" id="acno" placeholder="acno" />
+    <span id="msg">balance</span>
+
+</body>
+
+</html>
